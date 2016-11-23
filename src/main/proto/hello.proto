@@ -1,0 +1,15 @@
+syntax="proto3";
+
+//option java_multiple_files=true;
+option java_package="com.kyl.grpc";
+option java_outer_classname="HelloWorldProto";
+
+message HelloRequest{
+    string name=1;
+}
+message HelloReponse{
+    string message=1;
+}
+service Greeter{
+    rpc sayHello(HelloRequest) returns (HelloReponse){}
+}
