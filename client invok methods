@@ -1,0 +1,43 @@
+1    阻塞式的访问，client端向server端发送完request后即进入阻塞状态。
+     直到server端返回response以后才会继续执行下面的任务
+GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+        HelloWorldProto.HelloRequest request=HelloWorldProto.HelloRequest.newBuilder().setName("kongyanli").build();
+ HelloWorldProto.HelloReponse reponse=stub.sayHello(request); 阻塞
+        System.out.println(reponse.getMessage());
+ 
+ 2 异步访问，调用sayhello时重启一个新的线程处理
+ 主线程继续执行，并不等待
+  ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8883).usePlaintext(true).build();
+        GreeterGrpc.GreeterStub stub = GreeterGrpc.newStub(channel);
+   
+        HelloWorldProto.HelloRequest request=HelloWorldProto.HelloRequest.newBuilder().setName("kongyanli").build();
+
+       // final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+          stub.sayHello(request, new StreamObserver<HelloWorldProto.HelloReponse>() {
+            @Override
+            public void onNext(HelloWorldProto.HelloReponse helloReponse) {
+                System.out.println(Thread.currentThread().getName() + " helloReponse :" + helloReponse.getMessage());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+                System.out.println("onError");
+                //countDownLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+                //countDownLatch.countDown();
+            }
+        });
+          System.out.println(reponse.getMessage());
+
+        //countDownLatch.await();
+        3 异步访问（future）
+        
+        
+        
+        
