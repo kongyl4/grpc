@@ -1,9 +1,8 @@
-import com.kyl.grpc.GreeterGrpc;
+import java.io.IOException;
 
+import com.kyl.grpc.GreeterGrpc;
 import com.kyl.grpc.HelloWorldProto;
 import io.grpc.stub.StreamObserver;
-
-import java.io.IOException;
 
 /**
  * Created by kongyl4 on 2016/11/23.
@@ -37,6 +36,11 @@ public class HelloServer {
             System.out.println("Server sayhello");
             String name=request.getName();
             name="Hello"+name;
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             HelloWorldProto.HelloReponse reponse= HelloWorldProto.HelloReponse.newBuilder().setMessage(name).build();
             responseObserver.onNext(reponse);
             responseObserver.onCompleted();
