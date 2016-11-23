@@ -1,0 +1,18 @@
+上传本地已经存在的项目到github上：
+1 打开命令行终端，进入项目所在本地目录，将目录初始化为一个git项目
+git init
+此时目录中会创建一个.git的隐藏文件
+2 将所有文件添加到本地的git仓库
+git add .
+如果想添加特定的文件，可以把.换成具体文件名
+3 将添加的文件提交到仓库
+git commit -m "initial commit"
+4 访问GitHub
+5 创建一个新的仓库
+为了避免冲突，先不要勾选README和LICENSE选项
+6 回到命令行终端，将本地仓库关联到远程仓库
+git remote add origin https://github.com/kongyl4/grpc.git
+可通过以下命令查看是否关联成功
+git remote -v
+7 提交代码到GitHub仓库
+git push origin master(可换成其他分支)
